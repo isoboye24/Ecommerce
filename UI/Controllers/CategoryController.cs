@@ -1,12 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataAccess.Data;
+using Microsoft.AspNetCore.Mvc;
+using Models.Models;
 
 namespace UI.Controllers
 {
     public class CategoryController : Controller
     {
+        private readonly AppDBContext db;
+        public CategoryController(AppDBContext _db)
+        {
+            db = _db;
+        }
         public IActionResult Index()
         {
-            return View();
+            List<Category> categories = db.Categories.ToList();
+            return View(categories);
         }
     }
 }

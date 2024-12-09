@@ -15,5 +15,13 @@ namespace DataAccess.Data
 
         }
         public DbSet<Category> Categories { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Category>().HasData(
+                new Category { ID = 1, Name = "Maths", DisplayOrder = 1 },
+                new Category { ID = 2, Name = "Science", DisplayOrder = 2 },
+                new Category { ID = 3, Name = "Language", DisplayOrder = 3 }
+            );
+        }
     }
 }
