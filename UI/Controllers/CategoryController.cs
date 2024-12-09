@@ -1,4 +1,4 @@
-﻿using DataAccess.Data;
+﻿using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
@@ -6,14 +6,14 @@ namespace UI.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly AppDBContext db;
-        public CategoryController(AppDBContext _db)
+        private readonly ICategoryRepository categoryRepo;
+        public CategoryController(ICategoryRepository _db)
         {
-            db = _db;
+            categoryRepo = _db;
         }
         public IActionResult Index()
         {
-            List<Category> categories = db.Categories.ToList();
+            List<Category> categories = categoryRepo.GetAll().ToList();
             return View(categories);
         }
         public IActionResult Create()
@@ -23,18 +23,14 @@ namespace UI.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            //if (obj.Name == obj.DisplayOrder.ToString()) 
-            //{
-            //    ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
-            //}
-            //if (obj.Name != null && obj.Name.ToLower() == "test") 
-            //{
-            //    ModelState.AddModelError("", "Test is an invalid value.");
-            //}
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
+            }            
             if (ModelState.IsValid)
             {
-                db.Categories.Add(obj);
-                db.SaveChanges();
+                categoryRepo.Add(obj);
+                categoryRepo.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
@@ -47,7 +43,7 @@ namespace UI.Controllers
             {
                 return NotFound();
             }
-            Category categoryItem = db.Categories.Find(id);
+            Category categoryItem = categoryRepo.Get(x=>x.ID == id);
             if (categoryItem == null)
             {
                 return NotFound();
@@ -59,8 +55,8 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Update(obj);
-                db.SaveChanges();
+                categoryRepo.Update(obj);
+                categoryRepo.Save();
                 TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
@@ -73,7 +69,7 @@ namespace UI.Controllers
             {
                 return NotFound();
             }
-            Category categoryItem = db.Categories.Find(id);
+            Category categoryItem = categoryRepo.Get(x=>x.ID == id);
             if (categoryItem == null)
             {
                 return NotFound();
@@ -83,13 +79,13 @@ namespace UI.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Category? categoryItem = db.Categories.Find(id);
+            Category? categoryItem = categoryRepo.Get(x => x.ID == id);
             if (categoryItem == null)
             {
                 return NotFound();
             }
-            db.Categories.Remove(categoryItem);
-            db.SaveChanges();
+            categoryRepo.Remove(categoryItem);
+            categoryRepo.Save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
