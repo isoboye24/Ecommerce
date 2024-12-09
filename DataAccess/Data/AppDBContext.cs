@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data
+namespace DataAccess.Data
 {
     public class AppDBContext : DbContext
     {
