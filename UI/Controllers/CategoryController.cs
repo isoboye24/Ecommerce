@@ -40,5 +40,58 @@ namespace UI.Controllers
             }
             return View();
         }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Category categoryItem = db.Categories.Find(id);
+            if (categoryItem == null)
+            {
+                return NotFound();
+            }
+            return View(categoryItem);
+        }
+        [HttpPost]
+        public IActionResult Edit(Category obj)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Categories.Update(obj);
+                db.SaveChanges();
+                TempData["success"] = "Category updated successfully";
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Category categoryItem = db.Categories.Find(id);
+            if (categoryItem == null)
+            {
+                return NotFound();
+            }
+            return View(categoryItem);
+        }
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePost(int? id)
+        {
+            Category? categoryItem = db.Categories.Find(id);
+            if (categoryItem == null)
+            {
+                return NotFound();
+            }
+            db.Categories.Remove(categoryItem);
+            db.SaveChanges();
+            TempData["success"] = "Category deleted successfully";
+            return RedirectToAction("Index");
+        }
     }
 }
