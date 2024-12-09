@@ -1,6 +1,6 @@
 ﻿using DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
-using Models.Models;
+using Models;
 
 namespace UI.Controllers
 {
