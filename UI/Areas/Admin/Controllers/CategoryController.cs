@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
-namespace UI.Controllers
+namespace UI.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
@@ -26,7 +27,7 @@ namespace UI.Controllers
             if (obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name.");
-            }            
+            }
             if (ModelState.IsValid)
             {
                 unitOfWork.Category.Add(obj);
@@ -43,7 +44,7 @@ namespace UI.Controllers
             {
                 return NotFound();
             }
-            Category categoryItem = unitOfWork.Category.Get(x=>x.ID == id);
+            Category categoryItem = unitOfWork.Category.Get(x => x.ID == id);
             if (categoryItem == null)
             {
                 return NotFound();
@@ -69,7 +70,7 @@ namespace UI.Controllers
             {
                 return NotFound();
             }
-            Category categoryItem = unitOfWork.Category.Get(x=>x.ID == id);
+            Category categoryItem = unitOfWork.Category.Get(x => x.ID == id);
             if (categoryItem == null)
             {
                 return NotFound();
