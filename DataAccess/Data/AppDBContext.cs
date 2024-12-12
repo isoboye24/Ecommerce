@@ -35,6 +35,7 @@ namespace DataAccess.Data
                     Price = 90,
                     Price50 = 85,
                     Price100 = 80,
+                    CategoryID = 1,
                 },
                 new Product
                 {
@@ -47,6 +48,7 @@ namespace DataAccess.Data
                     Price = 109,
                     Price50 = 100,
                     Price100 = 95,
+                    CategoryID = 3,
                 },
                 new Product
                 {
@@ -59,6 +61,7 @@ namespace DataAccess.Data
                     Price = 80,
                     Price50 = 75,
                     Price100 = 70,
+                    CategoryID = 2,
                 },
                 new Product
                 {
@@ -71,6 +74,7 @@ namespace DataAccess.Data
                     Price = 50,
                     Price50 = 45,
                     Price100 = 40,
+                    CategoryID = 1,
                 },
                 new Product
                 {
@@ -83,6 +87,7 @@ namespace DataAccess.Data
                     Price = 70,
                     Price50 = 65,
                     Price100 = 60,
+                    CategoryID = 2,
                 },
                 new Product
                 {
@@ -95,6 +100,7 @@ namespace DataAccess.Data
                     Price = 90,
                     Price50 = 85,
                     Price100 = 80,
+                    CategoryID = 3,
                 }
             );
         }
