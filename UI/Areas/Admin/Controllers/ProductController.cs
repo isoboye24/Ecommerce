@@ -1,5 +1,6 @@
 ﻿using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Models;
 
 namespace UI.Areas.Admin.Controllers
@@ -15,6 +16,11 @@ namespace UI.Areas.Admin.Controllers
         public IActionResult Index()
         {
             List<Product> products = unitOfWork.Product.GetAll().ToList();
+            IEnumerable<SelectListItem> CategoryList = unitOfWork.Category.GetAll().Select(x=> new SelectListItem
+            {
+                Value = x.ID.ToString(),
+                Text = x.Name
+            });
             return View(products);
         }
         public IActionResult Create()
