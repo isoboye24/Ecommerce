@@ -25,7 +25,8 @@ namespace UI.Areas.Admin.Controllers
                 Text = x.Name,
                 Value = x.ID.ToString()
             });
-            ViewBag.CategoryList = CategoryList;
+            //ViewBag.CategoryList = CategoryList;
+            ViewData["CategoryList"] = CategoryList;
             return View();
         }
         [HttpPost]
