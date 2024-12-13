@@ -15,16 +15,17 @@ namespace UI.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> products = unitOfWork.Product.GetAll().ToList();
-            IEnumerable<SelectListItem> CategoryList = unitOfWork.Category.GetAll().Select(x=> new SelectListItem
-            {
-                Value = x.ID.ToString(),
-                Text = x.Name
-            });
+            List<Product> products = unitOfWork.Product.GetAll().ToList();            
             return View(products);
         }
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> CategoryList = unitOfWork.Category.GetAll().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.ID.ToString()
+            });
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
         [HttpPost]
