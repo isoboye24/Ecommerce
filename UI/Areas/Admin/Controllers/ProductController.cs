@@ -19,7 +19,7 @@ namespace UI.Areas.Admin.Controllers
             List<Product> products = unitOfWork.Product.GetAll().ToList();            
             return View(products);
         }
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {            
             ProductViewModels productVM = new()
             {
@@ -30,10 +30,20 @@ namespace UI.Areas.Admin.Controllers
                 }),
                 Product = new Product()
             };
-            return View(productVM);
+            if (id == null || id == 0)
+            {
+                // create
+                return View(productVM);
+            }
+            else
+            {
+                // update
+                productVM.Product = unitOfWork.Product.Get(x => x.ID == id);
+                return View(productVM);
+            }
         }
         [HttpPost]
-        public IActionResult Create(ProductViewModels productVM) 
+        public IActionResult Upsert(ProductViewModels productVM, IFormFile file) 
         {            
             if (ModelState.IsValid)
             {
@@ -52,32 +62,7 @@ namespace UI.Areas.Admin.Controllers
                 return View(productVM);
             }
             
-        }
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product productItem = unitOfWork.Product.Get(x => x.ID == id);
-            if (productItem == null)
-            {
-                return NotFound();
-            }
-            return View(productItem);
-        }
-        [HttpPost]
-        public IActionResult Edit(Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                unitOfWork.Product.Update(product);
-                unitOfWork.Save();
-                TempData["success"] = "Product updated successfully";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+        }        
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
