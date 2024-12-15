@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Models;
+using Models.ViewModels;
 
 namespace UI.Areas.Admin.Controllers
 {
@@ -19,31 +20,38 @@ namespace UI.Areas.Admin.Controllers
             return View(products);
         }
         public IActionResult Create()
-        {
-            IEnumerable<SelectListItem> CategoryList = unitOfWork.Category.GetAll().Select(x => new SelectListItem
+        {            
+            ProductViewModels productVM = new()
             {
-                Text = x.Name,
-                Value = x.ID.ToString()
-            });
-            //ViewBag.CategoryList = CategoryList;
-            ViewData["CategoryList"] = CategoryList;
-            return View();
+                CategoryList = unitOfWork.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.ID.ToString()
+                }),
+                Product = new Product()
+            };
+            return View(productVM);
         }
         [HttpPost]
-        public IActionResult Create(Product product) 
-        {
-            if (product.Title == product.ListPrice.ToString())
-            {
-                ModelState.AddModelError("name", "The Product price list cannot exactly match the Title.");
-            }
+        public IActionResult Create(ProductViewModels productVM) 
+        {            
             if (ModelState.IsValid)
             {
-                unitOfWork.Product.Add(product);
+                unitOfWork.Product.Add(productVM.Product);
                 unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
             }
-            return View();
+            else
+            {
+                productVM.CategoryList = unitOfWork.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.ID.ToString()
+                });
+                return View(productVM);
+            }
+            
         }
         public IActionResult Edit(int? id)
         {
