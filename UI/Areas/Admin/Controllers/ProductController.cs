@@ -10,9 +10,11 @@ namespace UI.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
-        public ProductController(IUnitOfWork _unitOfWork)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public ProductController(IUnitOfWork _unitOfWork, IWebHostEnvironment _webHostEnvironment)
         {
             unitOfWork = _unitOfWork;
+            webHostEnvironment = _webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -47,6 +49,18 @@ namespace UI.Areas.Admin.Controllers
         {            
             if (ModelState.IsValid)
             {
+                string wwwRootPath = webHostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, filename), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    productVM.Product.ImageUrl = @"\images\product\" + filename;
+                }
                 unitOfWork.Product.Add(productVM.Product);
                 unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
