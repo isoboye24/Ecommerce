@@ -19,7 +19,23 @@ namespace DataAccess.Repository
 
         public void Update(Product obj)
         {
-            db.Products.Update(obj);
+            var objFromDb = db.Products.FirstOrDefault(x => x.ID == obj.ID);
+            if (objFromDb != null)
+            {
+                objFromDb.Title = obj.Title;
+                objFromDb.ISBN = obj.ISBN;
+                objFromDb.Price = obj.Price;
+                objFromDb.Price50 = obj.Price50;
+                objFromDb.Price100 = obj.Price100;
+                objFromDb.Description = obj.Description;
+                objFromDb.CategoryID = obj.CategoryID;
+                objFromDb.Category = obj.Category;
+                objFromDb.Author = obj.Author;
+                if (objFromDb.ImageUrl != null)
+                {
+                    objFromDb.ImageUrl = obj.ImageUrl;
+                }                
+            }
         }
     }
 }

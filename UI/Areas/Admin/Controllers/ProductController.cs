@@ -74,13 +74,14 @@ namespace UI.Areas.Admin.Controllers
                 if (productVM.Product.ID == 0)
                 {
                     unitOfWork.Product.Add(productVM.Product);
+                    TempData["success"] = "Product created successfully";
                 }
                 else
                 {
                     unitOfWork.Product.Update(productVM.Product);
+                    TempData["success"] = "Product updated successfully";
                 }
-                unitOfWork.Save();
-                TempData["success"] = "Product created successfully";
+                unitOfWork.Save();                
                 return RedirectToAction("Index");
             }
             else
