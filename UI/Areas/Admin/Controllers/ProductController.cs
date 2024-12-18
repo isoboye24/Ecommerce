@@ -18,8 +18,8 @@ namespace UI.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> products = unitOfWork.Product.GetAll().ToList();            
-            return View(products);
+            List<Product> productList = unitOfWork.Product.GetAll(includeProperties:"Category").ToList();            
+            return View(productList);
         }
         public IActionResult Upsert(int? id)
         {            
