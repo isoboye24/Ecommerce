@@ -121,5 +121,13 @@ namespace UI.Areas.Admin.Controllers
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+        public IActionResult GetAll()
+        {
+            List<Product> productList = unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            return Json(new {data = productList});
+        }
+        #endregion
     }
 }
