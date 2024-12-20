@@ -95,38 +95,32 @@ namespace UI.Areas.Admin.Controllers
             }
             
         }        
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product productItem = unitOfWork.Product.Get(x => x.ID == id);
-            if (productItem == null)
-            {
-                return NotFound();
-            }
-            return View(productItem);
-        }
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePost(int? id)
-        {
-            Product? productItem = unitOfWork.Product.Get(x => x.ID == id);
-            if (productItem == null)
-            {
-                return NotFound();
-            }
-            unitOfWork.Product.Remove(productItem);
-            unitOfWork.Save();
-            TempData["success"] = "Product deleted successfully";
-            return RedirectToAction("Index");
-        }
-
+        
         #region API CALLS
         public IActionResult GetAll()
         {
             List<Product> productList = unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             return Json(new {data = productList});
+        }
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var productToBeDeleted = unitOfWork.Product.Get(x=>x.ID == id);
+            if (productToBeDeleted == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+
+            var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            unitOfWork.Product.Remove(productToBeDeleted);
+
+            
+            return Json(new { success = true, message = "Product deleted successfully!" });
         }
         #endregion
     }
