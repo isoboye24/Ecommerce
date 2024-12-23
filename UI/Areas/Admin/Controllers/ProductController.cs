@@ -45,7 +45,7 @@ namespace UI.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Upsert(ProductViewModels productVM, IFormFile file) 
+        public IActionResult Upsert(ProductViewModels productVM, IFormFile? file) 
         {            
             if (ModelState.IsValid)
             {
