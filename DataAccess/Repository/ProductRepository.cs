@@ -34,7 +34,7 @@ namespace DataAccess.Repository
                 if (objFromDb.ImageUrl != null)
                 {
                     objFromDb.ImageUrl = obj.ImageUrl;
-                }                
+                }
             }
         }
     }

@@ -13,7 +13,7 @@
     <div class="card-body p-4">
         <form method="post" class="row" enctype="multipart/form-data">
             <input asp-for="Product.ID" hidden />
-            <input asp-for="Product.ImageUrl" hidden />
+            
             <div class="row">
                 <div class="col-10">
                     <div class="border p-3 my-4">
@@ -74,8 +74,8 @@
                             <hr />
                         </div>
                         <div class="form-floating py-2 col-12">
+                            <input asp-for="Product.ImageUrl" type="file" name="files" class="border-0 shadow form-control" />
                             <label asp-for="Product.ImageUrl" class="ms-2"></label>
-                            <input asp-for="Product.ImageUrl" type="file" name="file" class="border-0 shadow form-control" />
                             <hr />
                         </div>
                         <div class="row pt-2">
