@@ -112,29 +112,17 @@ namespace UI.Areas.Admin.Controllers
             }
             else
             {
-                if (productToBeDeleted.ImageUrl == null)
-                {
-                    unitOfWork.Product.Remove(productToBeDeleted);
-                    unitOfWork.Save();
-                    return Json(new { success = true, message = "Product deleted successfully!" });
-                }
-                else
+                if (productToBeDeleted.ImageUrl != null)
                 {
                     var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
                     if (System.IO.File.Exists(oldImagePath))
                     {
                         System.IO.File.Delete(oldImagePath);
-                        unitOfWork.Product.Remove(productToBeDeleted);
-                        unitOfWork.Save();
-                        return Json(new { success = true, message = "Product deleted successfully!" });
                     }
-                    else
-                    {
-                        unitOfWork.Product.Remove(productToBeDeleted);
-                        unitOfWork.Save();
-                        return Json(new { success = true, message = "Product deleted successfully!" });
-                    }
-                }                
+                }                   
+                unitOfWork.Product.Remove(productToBeDeleted);
+                unitOfWork.Save();
+                return Json(new { success = true, message = "Product deleted successfully!" });                               
             }
         }
         #endregion
