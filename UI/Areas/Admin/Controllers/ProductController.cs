@@ -108,19 +108,16 @@ namespace UI.Areas.Admin.Controllers
             var productToBeDeleted = unitOfWork.Product.Get(x=>x.ID == id);
             if (productToBeDeleted == null)
             {
-                return Json(new { success = false, message = "Error while deleting" });
+                return Json(new { success = false, message = "Error while deleting. No item was found!" });
             }
-
-            var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
-            if (System.IO.File.Exists(oldImagePath))
-            {
-                System.IO.File.Delete(oldImagePath);
-            }
-
-            unitOfWork.Product.Remove(productToBeDeleted);
-
-            
-            return Json(new { success = true, message = "Product deleted successfully!" });
+                var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+                unitOfWork.Product.Remove(productToBeDeleted);
+                unitOfWork.Save();
+                return Json(new { success = true, message = "Product deleted successfully!" });     
         }
         #endregion
     }
