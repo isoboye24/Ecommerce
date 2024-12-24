@@ -110,14 +110,32 @@ namespace UI.Areas.Admin.Controllers
             {
                 return Json(new { success = false, message = "Error while deleting. No item was found!" });
             }
-                var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
-                if (System.IO.File.Exists(oldImagePath))
+            else
+            {
+                if (productToBeDeleted.ImageUrl == null)
                 {
-                    System.IO.File.Delete(oldImagePath);
+                    unitOfWork.Product.Remove(productToBeDeleted);
+                    unitOfWork.Save();
+                    return Json(new { success = true, message = "Product deleted successfully!" });
                 }
-                unitOfWork.Product.Remove(productToBeDeleted);
-                unitOfWork.Save();
-                return Json(new { success = true, message = "Product deleted successfully!" });     
+                else
+                {
+                    var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                        unitOfWork.Product.Remove(productToBeDeleted);
+                        unitOfWork.Save();
+                        return Json(new { success = true, message = "Product deleted successfully!" });
+                    }
+                    else
+                    {
+                        unitOfWork.Product.Remove(productToBeDeleted);
+                        unitOfWork.Save();
+                        return Json(new { success = true, message = "Product deleted successfully!" });
+                    }
+                }                
+            }
         }
         #endregion
     }
