@@ -12,6 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDBContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDBContext>();
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
@@ -30,6 +31,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
