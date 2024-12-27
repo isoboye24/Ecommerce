@@ -14,6 +14,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDBContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(x =>
+{
+    x.LoginPath = $"/Identity/Account/Login";
+    x.LoginPath = $"/Identity/Account/Logout";
+    x.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
