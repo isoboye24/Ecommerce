@@ -18,16 +18,7 @@ namespace DataAccess.Repository
         }
         public void Update(Company obj)
         {
-            var objFromDb = db.Companies.FirstOrDefault(x => x.CompanyID == obj.CompanyID);
-            if (objFromDb != null)
-            {
-                objFromDb.Name = obj.Name;
-                objFromDb.StreetAddress = obj.StreetAddress;
-                objFromDb.City = obj.City;
-                objFromDb.State = obj.State;
-                objFromDb.PostalCode = obj.PostalCode;
-                objFromDb.PhoneNumber = obj.PhoneNumber;
-            }
+            db.Companies.Update(obj);
         }
     }
 }
