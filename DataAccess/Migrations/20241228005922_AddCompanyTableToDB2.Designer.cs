@@ -4,6 +4,7 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UI.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241228005922_AddCompanyTableToDB2")]
+    partial class AddCompanyTableToDB2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,60 +270,6 @@ namespace UI.Migrations
                             ID = 3,
                             DisplayOrder = 3,
                             Name = "Language"
-                        });
-                });
-
-            modelBuilder.Entity("Models.Company", b =>
-                {
-                    b.Property<int>("CompanyID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyID"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CompanyID");
-
-                    b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            CompanyID = 1,
-                            City = "Baunatal",
-                            Name = "DIV",
-                            PhoneNumber = "947509730737",
-                            PostalCode = "5489",
-                            State = "Hessen",
-                            StreetAddress = "Akazinallee 68"
-                        },
-                        new
-                        {
-                            CompanyID = 2,
-                            City = "Kassel",
-                            Name = "Rivok",
-                            PhoneNumber = "895745635374",
-                            PostalCode = "31119",
-                            State = "Hessen",
-                            StreetAddress = "Franfurter 49"
                         });
                 });
 

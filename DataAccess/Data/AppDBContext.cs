@@ -18,6 +18,7 @@ namespace DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Company> Companies { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -113,6 +114,29 @@ namespace DataAccess.Data
                     ImageUrl = "",
                 }
             );
+            modelBuilder.Entity<Company>().HasData(
+                new Company
+                {
+                    CompanyID = 1,
+                    Name = "DIV",
+                    StreetAddress = "Akazinallee 68",
+                    City = "Baunatal",
+                    State = "Hessen",
+                    PostalCode = "5489",
+                    PhoneNumber = "947509730737"
+                    
+                },
+                new Company
+                {
+                    CompanyID = 2,
+                    Name = "Rivok",
+                    StreetAddress = "Franfurter 49",
+                    City = "Kassel",
+                    State = "Hessen",
+                    PostalCode = "31119",
+                    PhoneNumber = "895745635374"
+                }
+                );
         }
     }
 }
