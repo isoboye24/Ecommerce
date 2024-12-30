@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
@@ -31,6 +33,19 @@ namespace UI.Areas.Customer.Controllers
                 ProductID = productID
             };            
             return View(cart);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userID = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userID;
+            
+            unitOfWork.ShoppingCart.Add(shoppingCart);
+            unitOfWork.Save();
+            
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
