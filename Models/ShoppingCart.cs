@@ -13,6 +13,7 @@ namespace Models
     {
         public int ShoppingCartID { get; set; }
 
+        public int ProductID { get; set; }
         [ForeignKey("ProductID")]
         [ValidateNever]
         public Product Product { get; set; }

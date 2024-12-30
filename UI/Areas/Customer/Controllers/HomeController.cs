@@ -24,8 +24,13 @@ namespace UI.Areas.Customer.Controllers
         }
         public IActionResult Details(int productID)
         {
-            Product product = unitOfWork.Product.Get(x=>x.ID== productID, includeProperties: "Category");
-            return View(product);
+            ShoppingCart cart = new()
+            {
+                Product = unitOfWork.Product.Get(x => x.ID == productID, includeProperties: "Category"),
+                Count = 1,
+                ProductID = productID
+            };            
+            return View(cart);
         }
 
         public IActionResult Privacy()
