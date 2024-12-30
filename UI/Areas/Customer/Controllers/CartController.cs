@@ -29,7 +29,7 @@ namespace UI.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
-                double price = GetPriceBasedOnQuantity(cart);
+                cart.Price = GetPriceBasedOnQuantity(cart);
                 ShoppingCartVM.OrderTotal += (cart.Price * cart.Count);
             }
 
