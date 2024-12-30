@@ -53,6 +53,7 @@ namespace UI.Areas.Customer.Controllers
             {
                 unitOfWork.ShoppingCart.Add(shoppingCart);
             }
+            TempData["success"] = "Cart updated successfully";
             unitOfWork.Save();
             
             return RedirectToAction(nameof(Index));
