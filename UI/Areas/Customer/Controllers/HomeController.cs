@@ -41,8 +41,18 @@ namespace UI.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userID = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             shoppingCart.ApplicationUserId = userID;
-            
-            unitOfWork.ShoppingCart.Add(shoppingCart);
+
+            ShoppingCart cartFromDB = unitOfWork.ShoppingCart.Get(x=>x.ApplicationUserId == userID
+            && x.ProductID == shoppingCart.ProductID);
+            if (cartFromDB != null)
+            {
+                cartFromDB.Count += shoppingCart.Count;
+                unitOfWork.ShoppingCart.Update(cartFromDB);
+            }
+            else
+            {
+                unitOfWork.ShoppingCart.Add(shoppingCart);
+            }
             unitOfWork.Save();
             
             return RedirectToAction(nameof(Index));
