@@ -36,41 +36,41 @@ namespace UI.Areas.Customer.Controllers
             return View(ShoppingCartVM);
         }
 
-        public IActionResult Summary()
-        {
-            return View();
-        }
+        //public IActionResult Summary()
+        //{
+        //    return View();
+        //}
 
-        public IActionResult Plus(int cartID)
-        {
-            var cartFromDB = unitOfWork.ShoppingCart.Get(x => x.ProductID == cartID);
-            cartFromDB.Count += 1;
-            unitOfWork.ShoppingCart.Update(cartFromDB);
-            unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
-        }
-        public IActionResult Minus(int cartID)
-        {
-            var cartFromDB = unitOfWork.ShoppingCart.Get(x => x.ProductID == cartID);
-            if (cartFromDB.Count <= 1)
-            {
-                unitOfWork.ShoppingCart.Remove(cartFromDB);
-            }
-            else
-            {
-                cartFromDB.Count -= 1;
-                unitOfWork.ShoppingCart.Update(cartFromDB);
-            }            
-            unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
-        }
-        public IActionResult Remove(int cartID)
-        {
-            var cartFromDB = unitOfWork.ShoppingCart.Get(x => x.ProductID == cartID);
-            unitOfWork.ShoppingCart.Remove(cartFromDB);
-            unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
-        }
+        //public IActionResult Plus(int cartID)
+        //{
+        //    var cartFromDB = unitOfWork.ShoppingCart.Get(x => x.ProductID == cartID);
+        //    cartFromDB.Count += 1;
+        //    unitOfWork.ShoppingCart.Update(cartFromDB);
+        //    unitOfWork.Save();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //public IActionResult Minus(int cartID)
+        //{
+        //    var cartFromDB = unitOfWork.ShoppingCart.Get(x => x.ProductID == cartID);
+        //    if (cartFromDB.Count <= 1)
+        //    {
+        //        unitOfWork.ShoppingCart.Remove(cartFromDB);
+        //    }
+        //    else
+        //    {
+        //        cartFromDB.Count -= 1;
+        //        unitOfWork.ShoppingCart.Update(cartFromDB);
+        //    }            
+        //    unitOfWork.Save();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //public IActionResult Remove(int cartID)
+        //{
+        //    var cartFromDB = unitOfWork.ShoppingCart.Get(x => x.ProductID == cartID);
+        //    unitOfWork.ShoppingCart.Remove(cartFromDB);
+        //    unitOfWork.Save();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
         {

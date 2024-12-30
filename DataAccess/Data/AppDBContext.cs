@@ -137,17 +137,7 @@ namespace DataAccess.Data
                     PostalCode = "31119",
                     PhoneNumber = "895745635374"
                 }
-                );
-            modelBuilder.Entity<ShoppingCart>().HasData(
-                new ShoppingCart
-                {
-                    ShoppingCartID = 1,
-                    ProductID = 9,
-                    Count = 2,
-                    ApplicationUserId = "e2f2288b-b488-4a26-b82a-55762eba0189",
-                    Price = 980
-                }                
-            );
+                );            
         }
     }
 }

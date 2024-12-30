@@ -25,5 +25,8 @@ namespace Models
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
+
+        [NotMapped] // I do not want to add it to DB
+        public double Price { get; set; }
     }
 }
