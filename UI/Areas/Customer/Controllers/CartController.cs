@@ -114,10 +114,9 @@ namespace UI.Areas.Customer.Controllers
                     Price = cart.Price,
                     Count = cart.Count
                 };
+                unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
+                unitOfWork.Save();
             }
-
-            
-            
             return View(ShoppingCartVM);
         }
 
