@@ -160,6 +160,23 @@ namespace UI.Areas.Customer.Controllers
 
         public IActionResult OrderConfirmation(int id)
         {
+            OrderHeader orderHeader = unitOfWork.OrderHeader.Get(x => x.OrderHeaderID == id, includeProperties: "ApplicationUser");
+            if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+            {
+                // This is an order by customer
+                var service = new SessionService();
+                Session session = service.Get(orderHeader.SessionID);
+                if (session.PaymentStatus.ToLower() == "paid")
+                {
+                    unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
+                    unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    unitOfWork.Save();
+                }
+            }
+            List<ShoppingCart> shoppingCarts = unitOfWork.ShoppingCart.GetAll(x=>x.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
+            unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
+            unitOfWork.Save();
+
             return View(id);
         }
 
