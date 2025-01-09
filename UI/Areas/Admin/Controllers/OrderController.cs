@@ -3,6 +3,7 @@ using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.ViewModels;
 using System.Diagnostics;
 using Utility;
 
@@ -19,6 +20,16 @@ namespace UI.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Details(int orderId)
+        {
+            OrderViewModel orderVM = new()
+            {
+                OrderHeader = unitOfWork.OrderHeader.Get(x=>x.OrderHeaderID == orderId, includeProperties: "ApplicationUser"), 
+                OrderDetail = unitOfWork.OrderDetail.GetAll(x=>x.OrderHeaderID == orderId, includeProperties: "Product") 
+            };
+            return View(orderVM);
         }
 
         #region API CALLS
