@@ -6,6 +6,7 @@ using Models;
 
 namespace UI.Areas.Admin.Controllers
 {
+    [Area("admin")]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
