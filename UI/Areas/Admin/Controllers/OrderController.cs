@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.ViewModels;
+using Stripe;
 using System.Diagnostics;
 using System.Security.Claims;
 using Utility;
@@ -89,6 +90,32 @@ namespace UI.Areas.Admin.Controllers
             unitOfWork.OrderHeader.Update(orderHeader);
             unitOfWork.Save();
             TempData["Success"] = "Order Shipped Successfully.";
+            return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.OrderHeaderID });
+        }
+        
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult CancelOrder()
+        {
+            var orderHeader = unitOfWork.OrderHeader.Get(x => x.OrderHeaderID == OrderVM.OrderHeader.OrderHeaderID);
+            
+            if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Reason = RefundReasons.RequestedByCustomer,
+                    PaymentIntent = orderHeader.PaymentIntentID
+                };
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+                unitOfWork.OrderHeader.UpdateStatus(orderHeader.OrderHeaderID, SD.StatusCancelled, SD.StatusRefunded);
+            }
+            else
+            {
+                unitOfWork.OrderHeader.UpdateStatus(orderHeader.OrderHeaderID, SD.StatusCancelled, SD.StatusCancelled);
+            }
+            unitOfWork.Save();
+            TempData["Success"] = "Order Cancelled Successfully.";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.OrderHeaderID });
         }
 
