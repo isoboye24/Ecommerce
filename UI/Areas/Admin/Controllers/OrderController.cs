@@ -12,6 +12,7 @@ using Utility;
 namespace UI.Areas.Admin.Controllers
 {
     [Area("admin")]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
@@ -59,6 +60,36 @@ namespace UI.Areas.Admin.Controllers
 
             TempData["Success"] = "Order Details Updated Successfully.";
             return RedirectToAction(nameof(Details), new {orderId = orderHeaderFromDB.OrderHeaderID});
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult StartProcessing()
+        {
+            unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.OrderHeaderID, SD.StatusInProcess);
+            unitOfWork.Save();
+            TempData["Success"] = "Order Details Updated Successfully.";
+            return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.OrderHeaderID });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult ShipOrder()
+        {
+            var orderHeader = unitOfWork.OrderHeader.Get(x => x.OrderHeaderID == OrderVM.OrderHeader.OrderHeaderID);
+            orderHeader.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
+            orderHeader.Carrier = OrderVM.OrderHeader.Carrier;
+            orderHeader.OrderStatus = SD.StatusShipped;
+            orderHeader.ShippingDate = DateTime.Now;
+            if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+            {
+                orderHeader.PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30));
+            }
+            
+            unitOfWork.OrderHeader.Update(orderHeader);
+            unitOfWork.Save();
+            TempData["Success"] = "Order Shipped Successfully.";
+            return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.OrderHeaderID });
         }
 
         #region API CALLS
