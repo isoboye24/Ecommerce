@@ -2,8 +2,10 @@ using System.Diagnostics;
 using System.Security.Claims;
 using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Utility;
 
 namespace UI.Areas.Customer.Controllers
 {
@@ -46,16 +48,20 @@ namespace UI.Areas.Customer.Controllers
             && x.ProductID == shoppingCart.ProductID);
             if (cartFromDB != null)
             {
+                // shopping cart exists
                 cartFromDB.Count += shoppingCart.Count;
                 unitOfWork.ShoppingCart.Update(cartFromDB);
+                unitOfWork.Save();
             }
             else
             {
+                // add cart record
                 unitOfWork.ShoppingCart.Add(shoppingCart);
+                unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, unitOfWork.ShoppingCart.GetAll(x => x.ApplicationUserId == userID).Count());
             }
             TempData["success"] = "Cart updated successfully";
-            unitOfWork.Save();
-            
+
             return RedirectToAction(nameof(Index));
         }
 
