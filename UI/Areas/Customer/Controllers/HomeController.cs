@@ -23,8 +23,7 @@ namespace UI.Areas.Customer.Controllers
         }
 
         public IActionResult Index()
-        {
-            
+        {            
             IEnumerable<Product> productList = unitOfWork.Product.GetAll(includeProperties: "Category");
             return View(productList);
         }
