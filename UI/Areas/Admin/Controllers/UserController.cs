@@ -29,11 +29,18 @@ namespace UI.Areas.Admin.Controllers
         public IActionResult GetAll()
         {
             List<ApplicationUser> objUserList = db.ApplicationUsers.Include(x=>x.Company).ToList();
+            
+            var userRoles = db.UserRoles.ToList();
+            var roles = db.Roles.ToList();
+            
             foreach (var user in objUserList)
             {
+                var roleID = userRoles.FirstOrDefault(x=>x.UserId == user.Id).RoleId;
+                user.Role = roles.FirstOrDefault(x=>x.Id == roleID).Name;
+
                 if (user.Company == null)
                 {
-                    user.Company = new() { Name = ""};
+                    user.Company = new Company() { Name = ""};
                 }
             } 
             return Json(new { data = objUserList });
