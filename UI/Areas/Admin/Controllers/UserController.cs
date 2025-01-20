@@ -46,12 +46,27 @@ namespace UI.Areas.Admin.Controllers
             return Json(new { data = objUserList });
         }
 
-
-        [HttpDelete]
-        public IActionResult Delete(int? id)
+        [HttpPost]
+        public IActionResult LockUnlock([FromBody]string id)
         {
-            
-            return Json(new { success = true, message = "Delete Successful" });
+            var objFromDB = db.ApplicationUsers.FirstOrDefault(x=>x.Id == id);
+            if (objFromDB == null)
+            {
+                return Json(new { success = false, message = "Error while locking / unlocking" });
+            }
+            else
+            {
+                if (objFromDB.LockoutEnd != null && objFromDB.LockoutEnd > DateTime.Now)
+                {
+                    objFromDB.LockoutEnd = DateTime.Now;
+                }
+                else
+                {
+                    objFromDB.LockoutEnd = DateTime.Now.AddYears(1000);
+                }
+            }
+            db.SaveChanges();
+            return Json(new { success = true, message = "Operation Successful" });
         }
 
         #endregion
