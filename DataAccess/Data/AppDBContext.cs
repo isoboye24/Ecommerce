@@ -22,6 +22,7 @@ namespace DataAccess.Data
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -34,7 +35,7 @@ namespace DataAccess.Data
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
-                    ID = 1,
+                    ProductID = 1,
                     Title = "Fortune of Time",
                     Description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
                     ISBN = "SWD999001",
@@ -47,7 +48,7 @@ namespace DataAccess.Data
                 },
                 new Product
                 {
-                    ID = 2,
+                    ProductID = 2,
                     Title = "How to avoid war",
                     Description = "etetur sadipscing elitrut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
                     ISBN = "SWD999002",
@@ -60,7 +61,7 @@ namespace DataAccess.Data
                 },
                 new Product
                 {
-                    ID = 3,
+                    ProductID = 3,
                     Title = "Religious Freedom",
                     Description = "Tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
                     ISBN = "SWD999003",
@@ -73,7 +74,7 @@ namespace DataAccess.Data
                 },
                 new Product
                 {
-                    ID = 4,
+                    ProductID = 4,
                     Title = "Marital Success",
                     Description = "Dolor sit ametaliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
                     ISBN = "SWD999004",
@@ -86,7 +87,7 @@ namespace DataAccess.Data
                 },
                 new Product
                 {
-                    ID = 5,
+                    ProductID = 5,
                     Title = "Financial Success",
                     Description = "At vero eos et accusam et justo duo dolores et ea rebum.",
                     ISBN = "SWD999005",
@@ -99,7 +100,7 @@ namespace DataAccess.Data
                 },
                 new Product
                 {
-                    ID = 6,
+                    ProductID = 6,
                     Title = "Starts of a Firm",
                     Description = "Lnvidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
                     ISBN = "SWD999006",

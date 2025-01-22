@@ -43,7 +43,7 @@ namespace UI.Areas.Admin.Controllers
             else
             {
                 // update
-                productVM.Product = unitOfWork.Product.Get(x => x.ID == id);
+                productVM.Product = unitOfWork.Product.Get(x => x.ProductID == id);
                 return View(productVM);
             }
         }
@@ -74,7 +74,7 @@ namespace UI.Areas.Admin.Controllers
                     //}
                     //productVM.Product.ImageUrl = @"\images\product\" + filename;
                 }
-                if (productVM.Product.ID == 0)
+                if (productVM.Product.ProductID == 0)
                 {
                     unitOfWork.Product.Add(productVM.Product);
                     TempData["success"] = "Product created successfully";
@@ -108,7 +108,7 @@ namespace UI.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            var productToBeDeleted = unitOfWork.Product.Get(x=>x.ID == id);
+            var productToBeDeleted = unitOfWork.Product.Get(x=>x.ProductID == id);
             if (productToBeDeleted == null)
             {
                 return Json(new { success = false, message = "Error while deleting. No item was found!" });

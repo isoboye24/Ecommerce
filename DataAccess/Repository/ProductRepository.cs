@@ -19,7 +19,7 @@ namespace DataAccess.Repository
 
         public void Update(Product obj)
         {
-            var objFromDb = db.Products.FirstOrDefault(x => x.ID == obj.ID);
+            var objFromDb = db.Products.FirstOrDefault(x => x.ProductID == obj.ProductID);
             if (objFromDb != null)
             {
                 objFromDb.Title = obj.Title;

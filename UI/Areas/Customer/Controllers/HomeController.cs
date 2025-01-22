@@ -31,7 +31,7 @@ namespace UI.Areas.Customer.Controllers
         {
             ShoppingCart cart = new()
             {
-                Product = unitOfWork.Product.Get(x => x.ID == productID, includeProperties: "Category"),
+                Product = unitOfWork.Product.Get(x => x.ProductID == productID, includeProperties: "Category"),
                 Count = 1,
                 ProductID = productID
             };            
