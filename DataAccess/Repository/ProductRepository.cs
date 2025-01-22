@@ -31,6 +31,7 @@ namespace DataAccess.Repository
                 objFromDb.CategoryID = obj.CategoryID;
                 objFromDb.Category = obj.Category;
                 objFromDb.Author = obj.Author;
+                objFromDb.ProductImages = obj.ProductImages;
                 //if (objFromDb.ImageUrl != null)
                 //{
                 //    objFromDb.ImageUrl = obj.ImageUrl;
