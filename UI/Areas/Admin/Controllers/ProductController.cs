@@ -68,7 +68,7 @@ namespace UI.Areas.Admin.Controllers
                     foreach (IFormFile file in files)
                     {
                         string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string productPath = Path.Combine(wwwRootPath, @"images\products\product-" + productVM.Product.ProductID);
+                        string productPath = @"images\products\product-" + productVM.Product.ProductID;
                         string finalPath = Path.Combine(wwwRootPath, productPath);
 
                         if (!Directory.Exists(finalPath))
