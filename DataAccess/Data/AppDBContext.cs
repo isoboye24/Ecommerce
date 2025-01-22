@@ -44,7 +44,6 @@ namespace DataAccess.Data
                     Price50 = 85,
                     Price100 = 80,
                     CategoryID = 1,
-                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -58,7 +57,6 @@ namespace DataAccess.Data
                     Price50 = 100,
                     Price100 = 95,
                     CategoryID = 3,
-                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -72,7 +70,6 @@ namespace DataAccess.Data
                     Price50 = 75,
                     Price100 = 70,
                     CategoryID = 2,
-                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -86,7 +83,6 @@ namespace DataAccess.Data
                     Price50 = 45,
                     Price100 = 40,
                     CategoryID = 1,
-                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -100,7 +96,6 @@ namespace DataAccess.Data
                     Price50 = 65,
                     Price100 = 60,
                     CategoryID = 2,
-                    ImageUrl = "",
                 },
                 new Product
                 {
@@ -114,7 +109,6 @@ namespace DataAccess.Data
                     Price50 = 85,
                     Price100 = 80,
                     CategoryID = 3,
-                    ImageUrl = "",
                 }
             );
             modelBuilder.Entity<Company>().HasData(

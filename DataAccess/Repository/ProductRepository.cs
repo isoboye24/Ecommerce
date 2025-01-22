@@ -31,10 +31,10 @@ namespace DataAccess.Repository
                 objFromDb.CategoryID = obj.CategoryID;
                 objFromDb.Category = obj.Category;
                 objFromDb.Author = obj.Author;
-                if (objFromDb.ImageUrl != null)
-                {
-                    objFromDb.ImageUrl = obj.ImageUrl;
-                }
+                //if (objFromDb.ImageUrl != null)
+                //{
+                //    objFromDb.ImageUrl = obj.ImageUrl;
+                //}
             }
         }
     }
