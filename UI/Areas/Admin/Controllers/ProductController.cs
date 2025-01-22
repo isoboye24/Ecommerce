@@ -43,7 +43,7 @@ namespace UI.Areas.Admin.Controllers
             else
             {
                 // update
-                productVM.Product = unitOfWork.Product.Get(x => x.ProductID == id);
+                productVM.Product = unitOfWork.Product.Get(x => x.ProductID == id, includeProperties: "ProductImages");
                 return View(productVM);
             }
         }
@@ -109,6 +109,27 @@ namespace UI.Areas.Admin.Controllers
             
         }        
         
+        public IActionResult DeleteImage(int imageID)
+        {
+            var imageToBeDeleted = unitOfWork.ProductImage.Get(x => x.ImageID == imageID);
+            int productID = imageToBeDeleted.ProductID;
+            if (imageToBeDeleted != null)
+            {
+                if (!string.IsNullOrEmpty(imageToBeDeleted.ImageUrl))
+                {                    
+                    var oldImagePath = Path.Combine(webHostEnvironment.WebRootPath, imageToBeDeleted.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }                    
+                }
+                unitOfWork.ProductImage.Remove(imageToBeDeleted);
+                unitOfWork.Save();
+                TempData["success"] = "Image deleted successfully";
+            }
+            return RedirectToAction(nameof(Upsert), new {id = productID});
+        }
+
         #region API CALLS
         public IActionResult GetAll()
         {
