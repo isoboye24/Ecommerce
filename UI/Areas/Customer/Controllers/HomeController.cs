@@ -24,14 +24,14 @@ namespace UI.Areas.Customer.Controllers
 
         public IActionResult Index()
         {            
-            IEnumerable<Product> productList = unitOfWork.Product.GetAll(includeProperties: "Category");
+            IEnumerable<Product> productList = unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
             return View(productList);
         }
         public IActionResult Details(int productID)
         {
             ShoppingCart cart = new()
             {
-                Product = unitOfWork.Product.Get(x => x.ProductID == productID, includeProperties: "Category"),
+                Product = unitOfWork.Product.Get(x => x.ProductID == productID, includeProperties: "Category,ProductImages"),
                 Count = 1,
                 ProductID = productID
             };            
