@@ -18,9 +18,9 @@ namespace DataAccess.Repository
             db = _db;
         }
 
-        public void Update(ApplicationUser obj)
+        public void Update(ApplicationUser applicationUser)
         {
-            db.ApplicationUsers.Update(obj);
+            db.ApplicationUsers.Update(applicationUser);
         }
     }
 }
